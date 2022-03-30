@@ -289,7 +289,7 @@ GRANT SELECT ON addresses, customers, orders, orders_items, store, totals TO emp
 GRANT USAGE, CREATE ON SCHEMA public TO employee;
 
 CREATE TABLE store_hours (
-	day_of_week varchar(3) UNIQUE NOT NULL,
+  day_of_week varchar(3) UNIQUE NOT NULL,
   start_hour varchar(5) NOT NULL,
   end_hour varchar(5) NOT NULL
 );
@@ -298,13 +298,13 @@ INSERT INTO store_hours VALUES ('Mon', '9 AM', '6 PM'), ('Tue', '9 AM', '6 PM'),
 ('Fri', '9 AM', '6 PM'), ('Sat', '10 AM', '3 PM'), ('Sun', '10 AM', '3 PM');
 
 CREATE TABLE phone_numbers (
-	phone_id integer PRIMARY KEY, 
+  phone_id integer PRIMARY KEY, 
   area_code varchar(5) NOT NULL, 
   number varchar(8) NOT NULL
 );
 
 INSERT INTO phone_numbers VALUES (1, '310', '535-1652'), (2, '817', '726-4087'), (3, '734', '448-9735'), (4, '717', '728-3304'), 
-(5, '	971', '439-9032'), (6, '	510', '410-6869'), (7, '919', '644-3465'), (8, '856', '229-3270'), (9, '217', '945-3859'), 
+(5, '971', '439-9032'), (6, '510', '410-6869'), (7, '919', '644-3465'), (8, '856', '229-3270'), (9, '217', '945-3859'), 
 (10, '601', '338-4594'), (11, '717', '572-5612'); 
 
 ALTER TABLE store
