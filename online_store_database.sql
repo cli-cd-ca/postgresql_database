@@ -1,11 +1,11 @@
 CREATE TABLE store (
   store_id integer PRIMARY KEY,
-  name varchar(50),
-  description varchar(100),
+  name varchar(50) NOT NULL,
+  description varchar(100) NOT NULL,
   address_id integer REFERENCES addresses(address_id), 
   hours varchar(50),
   phone varchar(15),
-  website varchar(15)
+  website varchar(25) NOT NULL
 );
 
 CREATE TABLE customers (
@@ -19,12 +19,12 @@ CREATE TABLE customers (
 
 CREATE TABLE addresses (
   address_id integer PRIMARY KEY,
-  street_number varchar(5) NOT NULL,
+  street_number varchar(10) NOT NULL,
   street_name varchar(50) NOT NULL,
   apt varchar(5) NOT NULL,
   city varchar(50) NOT NULL,
-  state varchar(2) NOT NULL,
-  zip_code varchar(10) NOT NULL
+  state char(2) NOT NULL,
+  zip_code char(5) NOT NULL
 );
 
 CREATE TABLE orders (
@@ -38,7 +38,7 @@ CREATE TABLE items (
   name varchar(50) NOT NULL,
   price money NOT NULL,
   count integer CHECK (count >= 0),
-  in_stock varchar(12) NOT NULL,
+  in_stock char(2) NOT NULL,
   department varchar(50)
 );
 
@@ -286,10 +286,16 @@ SET ROLE postgres;
 
 GRANT SELECT ON addresses, customers, orders, orders_items, store, totals TO employee;
 
-GRANT USAGE, CREATE ON SCHEMA public TO employee;
+ALTER TABLE store_hours OWNER TO postgres;
+ALTER TABLE phone_numbers OWNER TO postgres;
+
+REASSIGN OWNED BY employee to postgres;
+DROP OWNED BY employee;
+DROP USER employee;
+DROP ROLE manager;
 
 CREATE TABLE store_hours (
-  day_of_week varchar(3) UNIQUE NOT NULL,
+  day_of_week char(3) UNIQUE NOT NULL,
   start_hour varchar(5) NOT NULL,
   end_hour varchar(5) NOT NULL
 );
@@ -299,8 +305,8 @@ INSERT INTO store_hours VALUES ('Mon', '9 AM', '6 PM'), ('Tue', '9 AM', '6 PM'),
 
 CREATE TABLE phone_numbers (
   phone_id integer PRIMARY KEY, 
-  area_code varchar(5) NOT NULL, 
-  number varchar(8) NOT NULL
+  area_code char(5) NOT NULL, 
+  number char(8) NOT NULL
 );
 
 INSERT INTO phone_numbers VALUES (1, '310', '535-1652'), (2, '817', '726-4087'), (3, '734', '448-9735'), (4, '717', '728-3304'), 
@@ -346,8 +352,11 @@ GRANT UPDATE (name, description, website) ON public.store TO manager;
 
 SET ROLE manager;
 
+GRANT SELECT ON store_hours, phone_numbers TO employee;
+
 VACUUM public.store_hours;
 VACUUM public.phone_numbers;
+VACUUM public.customers;
 
 EXPLAIN ANALYZE SELECT SUM(total), discount FROM totals
 GROUP BY discount;
