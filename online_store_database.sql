@@ -314,7 +314,7 @@ INSERT INTO phone_numbers VALUES (1, '310', '535-1652'), (2, '817', '726-4087'),
 (10, '601', '338-4594'), (11, '717', '572-5612'); 
 
 ALTER TABLE store
-DROP COLUMN hours
+DROP COLUMN hours;
 
 ALTER TABLE store
 RENAME phone TO phone_id;
