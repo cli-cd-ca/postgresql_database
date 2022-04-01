@@ -393,3 +393,6 @@ ADD UNIQUE (address_id);
 
 ALTER TABLE store
 ADD UNIQUE (phone_id);
+
+ALTER TABLE orders_items
+ADD CONSTRAINT orders_items_quantity_check CHECK (quantity >= 1);
