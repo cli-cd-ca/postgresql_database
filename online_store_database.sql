@@ -387,3 +387,9 @@ WHERE schemaname = 'public';
 
 EXPLAIN ANALYZE SELECT * FROM items
 ORDER BY count;
+
+ALTER TABLE store
+ADD UNIQUE (address_id);
+
+ALTER TABLE store
+ADD UNIQUE (phone_id);
